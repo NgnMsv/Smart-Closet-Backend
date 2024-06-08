@@ -25,6 +25,7 @@ class Wearable(models.Model):
     type = models.CharField(max_length=8, choices=TypeChoices.choices)
     usage_1 = models.CharField(max_length=8, choices=UsageChoices.choices)
     usage_2 = models.CharField(max_length=8, choices=UsageChoices.choices)
+    accessible = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return f"{self.closet.name} <- {dict(self.TypeChoices.choices)[self.type]}:{self.color}:{dict(self.UsageChoices.choices)[self.usage_1]}:{dict(self.UsageChoices.choices)[self.usage_2]}"
