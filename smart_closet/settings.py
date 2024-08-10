@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'closet',
     'user',
+    'combinator',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
