@@ -3,3 +3,6 @@ djangorestframework==3.15.2
 ipython==8.24.0
 pillow==10.4.0
 python-dotenv==1.0.1
+djoser==2.2.3
+djangorestframework-simplejwt==5.3.1
+django-cors-headers==4.4.0

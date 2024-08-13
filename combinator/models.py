@@ -6,8 +6,7 @@ class Combination(models.Model):
     pants = models.ForeignKey(to='closet.Wearable', related_name='pants_set', on_delete=models.CASCADE)
     footwear = models.ForeignKey(to='closet.Wearable', related_name='footwear_set', on_delete=models.CASCADE)
     label = models.BooleanField(null=True, blank=True)
-    user = models.ForeignKey('user.ClosetUser', on_delete=models.CASCADE)
-
+    
     class Meta:
         unique_together = ('shirt', 'pants', 'footwear')
 
