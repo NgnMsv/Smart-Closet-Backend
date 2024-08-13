@@ -8,7 +8,7 @@ from combinator.services import CombinatorServices
 
 class CombinationViewSet(viewsets.ModelViewSet):
     """
-    This viewset automatically provides `list` and `retrieve` actions.
+    This viewset automatically provides `list` and `retrieve` actions..
     """
 
     serializer_class = CombinationSerializer
