@@ -7,7 +7,9 @@ class Closet(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user.first_name}, {self.name}"
+    
 
+# Create your models here.
 class Wearable(models.Model):
     class TypeChoices(models.TextChoices):
         shirt = 's', 'SHIRT'

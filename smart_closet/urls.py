@@ -3,11 +3,13 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from combinator.viewset import CombinationViewSet
-from closet.viewset import ClosetViewSet
+from closet.viewset import ClosetViewSet, WearableViewSet
+
 
 router = DefaultRouter()
 router.register(r'combinations', CombinationViewSet, basename='combination')
 router.register(r'closets', ClosetViewSet, basename='closet')
+router.register(r'wearables', WearableViewSet, basename='wearable')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
