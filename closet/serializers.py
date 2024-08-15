@@ -11,5 +11,5 @@ class ClosetSerializer(serializers.ModelSerializer):
 class WearableSerializer(serializers.ModelSerializer):
     class Meta:
         model = Wearable
-        fields = ['closet', 'color', 'type', 'usage_1', 'usage_2', 'image', 'accessible']
+        fields = ['id', 'closet', 'color', 'type', 'usage_1', 'usage_2', 'image', 'accessible']
 

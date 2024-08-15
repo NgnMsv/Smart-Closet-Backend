@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from closet.serializers import ClosetSerializer, WearableSerializer
 from closet.models import Closet, Wearable
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 
@@ -27,6 +28,8 @@ class WearableViewSet(viewsets.ModelViewSet):
 
     serializer_class = WearableSerializer
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['closet']
 
     def get_queryset(self):
         # Filter combinations to only include those owned by the authenticated ClosetUser
