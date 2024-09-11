@@ -5,8 +5,6 @@ from closet.serializers import ClosetSerializer, WearableSerializer
 from closet.models import Closet, Wearable
 from django_filters.rest_framework import DjangoFilterBackend
 
-
-
 class ClosetViewSet(viewsets.ModelViewSet):
     """
     This viewset automatically provides `list` and `retrieve` actions.
@@ -32,11 +30,10 @@ class WearableViewSet(viewsets.ModelViewSet):
     filterset_fields = ['closet']
 
     def get_queryset(self):
-        # Filter combinations to only include those owned by the authenticated ClosetUser
+        # Filter wearables to only include those owned by the authenticated ClosetUser
         return Wearable.objects.filter(closet__user=self.request.user)
 
-    # def perform_create(self, serializer):
-    #     # Automatically associate the combination with the logged-in ClosetUser
-    #     serializer.save(closet__user=self.request.user)
-
-    
+    def perform_create(self, serializer):
+        # Automatically associate the wearable with the logged-in user's closet
+        closet = Closet.objects.get(id=self.request.data['closet'], user=self.request.user)
+        serializer.save(closet=closet)

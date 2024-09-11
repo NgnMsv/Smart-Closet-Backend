@@ -27,7 +27,8 @@ class Wearable(models.Model):
     type = models.CharField(max_length=8, choices=TypeChoices.choices)
     usage_1 = models.CharField(max_length=8, choices=UsageChoices.choices)
     usage_2 = models.CharField(max_length=8, choices=UsageChoices.choices)
-    image = models.ImageField(null=True, blank=True)
+    # image = models.ImageField(null=True, blank=True)
+    image_url = models.URLField(max_length=500, null=True, blank=True)  # Store the Cloudinary URL here
     accessible = models.BooleanField(default=True)
 
     def __str__(self) -> str:

@@ -15,6 +15,10 @@ from dotenv import load_dotenv
 import os
 from django.utils import timezone
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -184,3 +188,13 @@ CORS_ALLOW_HEADERS = [
     "x-csrftoken",
     "x-requested-with",
 ]
+
+
+# Cloudinary configuration
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': 'dhh2bkogz',
+    'API_KEY': '287968948658166',
+    'API_SECRET': '29xaZgk-1VwnS9vjYLh_bYSnoZk'
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'

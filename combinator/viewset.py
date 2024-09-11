@@ -26,7 +26,6 @@ class CombinationViewSet(viewsets.ModelViewSet):
         # Use the custom serializer for the POST request
         serializer = CombinationCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-
         combinator_service = CombinatorServices(request.user)
         try:
             combination = combinator_service.generate_random_set()

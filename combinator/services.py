@@ -21,9 +21,13 @@ class CombinatorServices:
                                                     accessible=True).\
                                                         values_list('id', flat=True))
         
+        tries = 0
         random_shirt_id, random_pants_id, random_footwear_id = choice(shirt_ids), choice(pants_ids), choice(footwear_ids)
         while Combination.objects.filter(shirt_id=random_shirt_id, pants_id=random_pants_id, footwear_id=random_footwear_id).exists():
             random_shirt_id, random_pants_id, random_footwear_id = choice(shirt_ids), choice(pants_ids), choice(footwear_ids)
+            tries += 1
+            if tries > 20:
+                raise IndexError("Cannot find enough wearables")
             
         combination = Combination.objects.create(shirt_id=random_shirt_id, 
                                                  pants_id=random_pants_id, 
