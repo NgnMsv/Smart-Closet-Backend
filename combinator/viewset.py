@@ -1,9 +1,11 @@
 from rest_framework import viewsets, status
+from rest_framework.views import APIView
 from combinator.models import Combination
 from combinator.serializers import CombinationSerializer, CombinationCreateSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from combinator.services import CombinatorServices
+from combinator.services import CombinatorServices, AIServices
+from django.shortcuts import get_object_or_404
 
 
 class CombinationViewSet(viewsets.ModelViewSet):
@@ -38,3 +40,36 @@ class CombinationViewSet(viewsets.ModelViewSet):
 
         # Example: Returning a simple response
         return Response(result_serializer.data, status=status.HTTP_201_CREATED)
+
+
+class AccurateCombinationView(APIView):
+    """
+    API View that takes a combination ID, performs a calculation (sum of image URL lengths), and returns a number.
+    """
+
+    def post(self, request, *args, **kwargs):
+
+        usage = self.kwargs.get('usage', None)
+        if not usage:
+            return Response({'error': 'The usage is not specified!'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Get the combination by its primary key (ID)
+        combinator_service = CombinatorServices(request.user)
+        ai_service = AIServices(request.user)
+
+        combination, _ = combinator_service.generate_random_set_usage(usage=usage)
+        accuracy = ai_service.predict_item(combination)
+        while accuracy < 0.5:
+            combination, _ = combinator_service.generate_random_set_usage(usage=usage)
+            accuracy = ai_service.predict_item(combination)
+            print(accuracy)
+        
+        # Return the result as a JSON response
+        serializer = CombinationSerializer(combination)
+
+        # Add the calculated result to the response data
+        response_data = serializer.data
+        response_data['accuracy'] = accuracy  # Add the calculated result to the response
+        
+        # Return the serialized data along with the calculated result
+        return Response(response_data, status=status.HTTP_200_OK)

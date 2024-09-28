@@ -1,0 +1,44 @@
+services: 
+
+  migrate:
+    build: .
+    command: python manage.py migrate
+    env_file:
+      - ./.env
+    volumes:
+      - .:/app
+
+  server:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    env_file:
+      - ./.env
+    depends_on:
+      - migrate
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+
+  rabbitmq:
+    image: "rabbitmq:3-management"
+    ports:
+      - "5672:5672"
+  
+  beat:
+    build: .
+    command: ["celery", "-A", "smart_closet", "beat", "--loglevel=info"]
+    volumes:
+      - .:/app
+    depends_on:
+      - migrate
+      - rabbitmq
+
+  ai-model:
+    build: .
+    command: ["celery", "-A", "smart_closet", "worker", "--loglevel=info"]
+    volumes:
+      - .:/app
+    depends_on:
+      - migrate
+      - beat

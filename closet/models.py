@@ -7,7 +7,20 @@ class Closet(models.Model):
 
     def __str__(self) -> str:
         return f"{self.user.first_name}, {self.name}"
-    
+
+
+class WearableManager(models.Manager):
+    def shirts(self):
+        """Return all Wearables of type 'shirt'."""
+        return self.filter(type=Wearable.TypeChoices.shirt)
+
+    def pants(self):
+        """Return all Wearables of type 'pants'."""
+        return self.filter(type=Wearable.TypeChoices.pants)
+
+    def footwear(self):
+        """Return all Wearables of type 'footwear'."""
+        return self.filter(type=Wearable.TypeChoices.footwear)
 
 # Create your models here.
 class Wearable(models.Model):
@@ -30,6 +43,8 @@ class Wearable(models.Model):
     # image = models.ImageField(null=True, blank=True)
     image_url = models.URLField(max_length=500, null=True, blank=True)  # Store the Cloudinary URL here
     accessible = models.BooleanField(default=True)
+
+    objects = WearableManager()
 
     def __str__(self) -> str:
         return f"{self.closet.name} <- {dict(self.TypeChoices.choices)[self.type]}:{self.color}:{dict(self.UsageChoices.choices)[self.usage_1]}:{dict(self.UsageChoices.choices)[self.usage_2]}"
